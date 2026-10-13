@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ڈکشنری — چار زبانوں کی ڈکشنری</title>
+<meta name="description" content="انگریزی اردو فارسی پشتو ڈکشنری — چاروں زبانوں میں تلاش">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <div class="brand">📖 چار زبانوں کی ڈکشنری</div>
+    <nav class="links">
+      <a href="index.html">ہوم</a>
+      <a href="dictionary.html">ڈکشنری</a>
+      <a href="about.html">تعارف</a>
+      <button class="iconbtn" id="themeBtn" title="ڈارک / لائٹ" onclick="toggleTheme()">◐</button>
+    </nav>
+  </div>
+</header>
+
+<div class="dict-head">
+  <div class="wrap">
+    <h1>📖 ڈکشنری</h1>
+    <p>انگریزی • اردو • فارسی • پشتو — کسی بھی زبان میں تلاش کریں</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="dict-tools">
+    <input id="q" dir="auto" placeholder="لفظ لکھیں… مثلاً کتاب، water، خانه، کور" autocomplete="off">
+    <div class="chips">
+      <button class="chipbtn active" data-lang="all">سب</button>
+      <button class="chipbtn" data-lang="en">English</button>
+      <button class="chipbtn" data-lang="ur">اردو</button>
+      <button class="chipbtn" data-lang="fa">فارسی</button>
+      <button class="chipbtn" data-lang="ps">پښتو</button>
+    </div>
+  </div>
+  <div class="count" id="count">تلاش کے لیے اوپر لفظ لکھیں</div>
+  <div class="results" id="results"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="index.html">ہوم</a>
+      <a href="dictionary.html">ڈکشنری</a>
+      <a href="about.html">تعارف</a>
+    </div>
+    <div>چار زبانوں کی ڈکشنری — علم سب کے لیے مفت</div>
+  </div>
+</footer>
+<script src="js/data.js"></script>
+<script src="js/dictionary.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
