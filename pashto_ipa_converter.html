@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پښتو → IPA کنورټر</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#1a1a2e;color:#eee;min-height:100vh;padding:16px}
+h1{text-align:center;font-size:22px;margin:12px 0 4px;color:#4ade80}
+.subtitle{text-align:center;font-size:13px;color:#aaa;margin-bottom:16px}
+.box{background:#16213e;border-radius:12px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:14px;font-weight:bold;margin-bottom:8px;color:#4ade80}
+textarea{width:100%;min-height:150px;background:#0f3460;color:#fff;border:1px solid #2a2a5e;border-radius:8px;padding:12px;font-size:20px;direction:rtl;resize:vertical;font-family:Arial,sans-serif}
+textarea:focus{outline:2px solid #4ade80}
+.output{background:#0f3460;border:1px solid #2a2a5e;border-radius:8px;padding:12px;min-height:80px;font-size:18px;direction:ltr;text-align:left;word-break:break-word;line-height:1.8;font-family:'Charis SIL','Doulos SIL',Arial,sans-serif;color:#fbbf24}
+.wordview{background:#0f3460;border:1px solid #2a2a5e;border-radius:8px;padding:12px;min-height:100px;direction:rtl}
+.wordpair{display:inline-block;margin:6px 10px;text-align:center;vertical-align:top}
+.wordpair .pw{font-size:20px;color:#fff;display:block}
+.wordpair .pi{font-size:15px;color:#fbbf24;direction:ltr;display:block;margin-top:2px}
+.sentbreak{margin:12px 0;padding:10px;background:#16213e;border-radius:8px}
+.sentbreak .ps-sent{font-size:18px;color:#fff;direction:rtl;margin-bottom:4px}
+.sentbreak .pi-sent{font-size:15px;color:#fbbf24;direction:ltr}
+.btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+button{background:#4ade80;color:#000;border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:bold;cursor:pointer;flex:1}
+button:active{opacity:.8}
+button.secondary{background:#333;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+th,td{border:1px solid #2a2a5e;padding:8px;text-align:center}
+th{background:#0f3460;color:#4ade80}
+td{font-size:16px}
+td.ipa{color:#fbbf24;direction:ltr}
+.note{font-size:12px;color:#aaa;margin-top:8px;line-height:1.6;text-align:center}
+h2{font-size:16px;color:#4ade80;margin:14px 0 8px;text-align:center}
+</style>
+</head>
+<body>
+<h1>پښتو → IPA کنورټر</h1>
+<p class="subtitle">پښتو ولیکئ، IPA به په خپله جوړېږي</p>
+
+<div class="box">
+<label>✍️ پښتو متن:</label>
+<textarea id="input" placeholder="دلته پښتو ولیکئ... یو ټکی، جمله یا ټول پیراګراف — مثال: زه پښتو وایم. زما کور په کابل کې دی." autofocus></textarea>
+<div class="btns">
+<button onclick="clearAll()" class="secondary">صاف کړئ</button>
+<button onclick="copyIPA()">📋 IPA کاپي کړئ</button>
+</div>
+</div>
+
+<div class="box">
+<label>🔊 IPA (نړیوال فونټیک الفبا):</label>
+<div class="output" id="output">—</div>
+</div>
+
+<div class="box">
+<label>🔤 رومن (Roman Transliteration):</label>
+<div class="output" id="romanOutput" style="color:#4ade80">—</div>
+<div class="btns">
+<button onclick="copyRoman()">📋 رومن کاپي کړئ</button>
+</div>
+</div>
+
+<div class="box">
+<label>📝 جملے / پیراگراف — لفظ په لفظ:</label>
+<div class="wordview" id="wordview">—</div>
+</div>
+
+<div class="box">
+<h2>د پښتو ځانګړي توري او IPA (ویکیپیډیا په شان)</h2>
+<table>
+<tr><th>پښتو</th><th>IPA (ویکیپیډیا)</th><th>تشریح</th></tr>
+<tr><td>ټ</td><td class="ipa">/ʈ/</td><td>شاته ژبه والا ټ</td></tr>
+<tr><td>ډ</td><td class="ipa">/ɖ/</td><td>شاته ژبه والا ډ</td></tr>
+<tr><td>ړ</td><td class="ipa">/ɻ~ɽ/</td><td>شاته ژبه والا ړ</td></tr>
+<tr><td>ڼ</td><td class="ipa">/ɳ/</td><td>شاته ژبه والا ڼ</td></tr>
+<tr><td>ځ</td><td class="ipa">/d͡z/</td><td>ځ</td></tr>
+<tr><td>څ</td><td class="ipa">/t͡s/</td><td>څ</td></tr>
+<tr><td>ښ</td><td class="ipa">/ʂ/</td><td>ښ</td></tr>
+<tr><td>ږ</td><td class="ipa">/ʐ/</td><td>ږ</td></tr>
+<tr><td>ې</td><td class="ipa">/e/</td><td>اوږده ې</td></tr>
+<tr><td>ۍ</td><td class="ipa">/əɪ/</td><td>لکۍ واله یې</td></tr>
+<tr><td>ۀ</td><td class="ipa">/ə/</td><td>همزواله یې</td></tr>
+<tr><td>ئ</td><td class="ipa">/əɪ/</td><td>ئ</td></tr>
+</table>
+
+<h2>ټول توري (ویکیپیډیا IPA)</h2>
+<table>
+<tr><th>پښتو</th><th>IPA</th><th>پښتو</th><th>IPA</th></tr>
+<tr><td>ا</td><td class="ipa">/ɑ/</td><td>ب</td><td class="ipa">/b/</td></tr>
+<tr><td>پ</td><td class="ipa">/p/</td><td>ت</td><td class="ipa">/t/</td></tr>
+<tr><td>ث</td><td class="ipa">/s/</td><td>ج</td><td class="ipa">/d͡ʒ/</td></tr>
+<tr><td>چ</td><td class="ipa">/t͡ʃ/</td><td>ح</td><td class="ipa">/h/</td></tr>
+<tr><td>خ</td><td class="ipa">/x/</td><td>د</td><td class="ipa">/d/</td></tr>
+<tr><td>ذ</td><td class="ipa">/z/</td><td>ر</td><td class="ipa">/ɾ/</td></tr>
+<tr><td>ز</td><td class="ipa">/z/</td><td>ژ</td><td class="ipa">/ʒ/</td></tr>
+<tr><td>س</td><td class="ipa">/s/</td><td>ش</td><td class="ipa">/ʃ/</td></tr>
+<tr><td>ص</td><td class="ipa">/s/</td><td>ض</td><td class="ipa">/z/</td></tr>
+<tr><td>ط</td><td class="ipa">/t/</td><td>ظ</td><td class="ipa">/z/</td></tr>
+<tr><td>ع</td><td class="ipa">/ʔ/</td><td>غ</td><td class="ipa">/ɣ/</td></tr>
+<tr><td>ف</td><td class="ipa">/f/</td><td>ق</td><td class="ipa">/q/</td></tr>
+<tr><td>ک</td><td class="ipa">/k/</td><td>ګ</td><td class="ipa">/ɡ/</td></tr>
+<tr><td>ل</td><td class="ipa">/l/</td><td>م</td><td class="ipa">/m/</td></tr>
+<tr><td>ن</td><td class="ipa">/n/</td><td>و</td><td class="ipa">/w/</td></tr>
+<tr><td>ه</td><td class="ipa">/h/</td><td>ي</td><td class="ipa">/j/</td></tr>
+<tr><td>ی</td><td class="ipa">/j/</td><td>آ</td><td class="ipa">/ɑ/</td></tr>
+</table>
+<p class="note">سرچینه: Wikipedia — Help:IPA/Pashto<br>یادونه: و د تورو په منځ کې w، u یا o کېدای شي. ي د j یا i کېدای شي.</p>
+</div>
+
+<script>
+const MAP = {
+// Pashto-specific letters (Wikipedia Help:IPA/Pashto)
+'ټ':'ʈ','ډ':'ɖ','ړ':'ɽ','ڼ':'ɳ','ځ':'d͡z','څ':'t͡s','ښ':'ʂ','ږ':'ʐ',
+'ې':'e','ۍ':'əɪ','ۀ':'ə','ئ':'əɪ',
+// Standard letters (Wikipedia)
+'ا':'ɑ','آ':'ɑ','ب':'b','پ':'p','ت':'t','ث':'s','ج':'d͡ʒ','چ':'t͡ʃ',
+'ح':'h','خ':'x','د':'d','ذ':'z','ر':'ɾ','ز':'z','ژ':'ʒ',
+'س':'s','ش':'ʃ','ص':'s','ض':'z','ط':'t','ظ':'z','ع':'ʔ','غ':'ɣ',
+'ف':'f','ق':'q','ک':'k','ګ':'ɡ','ل':'l','م':'m','ن':'n',
+'و':'w','ه':'h','ي':'j','ی':'j',
+// Vowel marks (Wikipedia)
+'َ':'a','ِ':'i','ُ':'u','ً':'an','ٍ':'in','ٌ':'un','ّ':'ː','ْ':'',
+// Nasalization
+'ں':'̃',
+// Numbers stay as-is
+'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'
+};
+
+function convertWord(word) {
+  let out = '';
+  const chars = [...word];
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
+    const prev = i > 0 ? chars[i-1] : '';
+    const next = i < chars.length - 1 ? chars[i+1] : '';
+    // Contextual و: vowel o when between consonants or at end after consonant
+    if (ch === 'و') {
+      const isPrevConsonant = prev && MAP[prev] && !['ɑ','a','i','u','e','ə'].includes(MAP[prev]);
+      const isNextConsonant = next && MAP[next] && !['ɑ','a','i','u','e','ə'].includes(MAP[next]);
+      const isAtEnd = !next;
+      // و as vowel 'o' when: between consonants, or after consonant at end
+      if ((isPrevConsonant && isNextConsonant) || (isPrevConsonant && isAtEnd)) {
+        out += 'o';
+      } else if (i === 0) {
+        out += 'w'; // word-initial و = w
+      } else {
+        out += 'w';
+      }
+      continue;
+    }
+    // Contextual ي: vowel i when between consonants or at end after consonant
+    if (ch === 'ي' || ch === 'ی') {
+      const isPrevConsonant = prev && MAP[prev] && !['ɑ','a','i','u','e','ə'].includes(MAP[prev]);
+      const isNextConsonant = next && MAP[next] && !['ɑ','a','i','u','e','ə'].includes(MAP[next]);
+      const isAtEnd = !next;
+      if ((isPrevConsonant && isNextConsonant) || (isPrevConsonant && isAtEnd)) {
+        out += 'i';
+      } else if (i === 0) {
+        out += 'j';
+      } else {
+        out += 'j';
+      }
+      continue;
+    }
+    if (MAP[ch] !== undefined) out += MAP[ch];
+    else if (/[.,;:!?؟،؛«»""''()\[\]{}-]/.test(ch)) out += ch;
+    else if (/[0-9]/.test(ch)) out += ch;
+    else out += ch;
+  }
+  return out;
+}
+
+function convert(text) {
+  return text.split(/(\s+)/).map(part => {
+    if (/^\s+$/.test(part)) return part;
+    return convertWord(part);
+  }).join('');
+}
+
+const ROMAN = {
+// Pashto-specific letters (standard Pashto romanization)
+'ټ':'ṭ','ډ':'ḍ','ړ':'ṛ','ڼ':'ṇ','ځ':'ź','څ':'ś','ښ':'ṣ̌','ږ':'ǵ',
+'ې':'e','ۍ':'əy','ۀ':'ə','ئ':'əy',
+// Standard letters
+'ا':'ā','آ':'ā','ب':'b','پ':'p','ت':'t','ث':'s','ج':'j','چ':'č',
+'ح':'h','خ':'x','د':'d','ذ':'z','ر':'r','ز':'z','ژ':'ž',
+'س':'s','ش':'š','ص':'s','ض':'z','ط':'t','ظ':'z','ع':"'",'غ':'ġ',
+'ف':'f','ق':'q','ک':'k','ګ':'g','ل':'l','م':'m','ن':'n',
+'و':'w','ه':'h','ي':'y','ی':'y',
+// Vowel marks
+'َ':'a','ِ':'i','ُ':'u','ً':'ān','ٍ':'īn','ٌ':'ūn','ّ':'','ْ':'',
+'ں':'ń',
+'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'
+};
+
+function convertRomanWord(word) {
+  let out = '';
+  const chars = [...word];
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
+    const prev = i > 0 ? chars[i-1] : '';
+    const next = i < chars.length - 1 ? chars[i+1] : '';
+    // Contextual و: vowel o when between consonants or at end after consonant
+    if (ch === 'و') {
+      const isPrevConsonant = prev && ROMAN[prev] && !['ā','a','i','u','e','ə'].includes(ROMAN[prev]);
+      const isNextConsonant = next && ROMAN[next] && !['ā','a','i','u','e','ə'].includes(ROMAN[next]);
+      const isAtEnd = !next;
+      if ((isPrevConsonant && isNextConsonant) || (isPrevConsonant && isAtEnd)) {
+        out += 'o';
+      } else if (i === 0) {
+        out += 'w';
+      } else {
+        out += 'w';
+      }
+      continue;
+    }
+    // Contextual ي: vowel i when between consonants or at end after consonant
+    if (ch === 'ي' || ch === 'ی') {
+      const isPrevConsonant = prev && ROMAN[prev] && !['ā','a','i','u','e','ə'].includes(ROMAN[prev]);
+      const isNextConsonant = next && ROMAN[next] && !['ā','a','i','u','e','ə'].includes(ROMAN[next]);
+      const isAtEnd = !next;
+      if ((isPrevConsonant && isNextConsonant) || (isPrevConsonant && isAtEnd)) {
+        out += 'i';
+      } else if (i === 0) {
+        out += 'y';
+      } else {
+        out += 'y';
+      }
+      continue;
+    }
+    if (ROMAN[ch] !== undefined) out += ROMAN[ch];
+    else if (/[.,;:!?؟،؛«»""''()\[\]{}-]/.test(ch)) out += ch;
+    else if (/[0-9]/.test(ch)) out += ch;
+    else out += ch;
+  }
+  return out;
+}
+
+function convertRoman(text) {
+  return text.split(/(\s+)/).map(part => {
+    if (/^\s+$/.test(part)) return part;
+    return convertRomanWord(part);
+  }).join('');
+}
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const romanOutput = document.getElementById('romanOutput');
+const wordview = document.getElementById('wordview');
+input.addEventListener('input', () => {
+  const v = input.value.trim();
+  output.textContent = v ? '/' + convert(v) + '/' : '—';
+  romanOutput.textContent = v ? convertRoman(v) : '—';
+  // Word-by-word view for sentences/paragraphs
+  if (!v) { wordview.innerHTML = '—'; return; }
+  // Split into sentences (by . ! ? ؟ or newlines)
+  const sentences = v.split(/([.!?؟\n]+)/).filter(s => s.trim());
+  let html = '';
+  let curSent = '';
+  for (let part of sentences) {
+    if (/^[.!?؟\n]+$/.test(part)) {
+      // End of sentence - render it
+      if (curSent.trim()) html += renderSentence(curSent);
+      curSent = '';
+    } else {
+      curSent += part;
+    }
+  }
+  if (curSent.trim()) html += renderSentence(curSent);
+  wordview.innerHTML = html || '—';
+});
+function renderSentence(sent) {
+  const words = sent.trim().split(/\s+/);
+  let pairs = words.map(w => {
+    const ipa = convert(w);
+    return '<span class="wordpair"><span class="pw">' + escapeHtml(w) + '</span><span class="pi">/' + escapeHtml(ipa) + '/</span></span>';
+  }).join('');
+  return '<div class="sentbreak">' + pairs + '</div>';
+}
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function clearAll() { input.value=''; output.textContent='—'; romanOutput.textContent='—'; wordview.innerHTML='—'; input.focus(); }
+function copyIPA() {
+  const t = output.textContent;
+  if (t === '—') return;
+  navigator.clipboard.writeText(t).then(() => alert('IPA کاپي شو!'));
+}
+function copyRoman() {
+  const t = romanOutput.textContent;
+  if (t === '—') return;
+  navigator.clipboard.writeText(t).then(() => alert('رومن کاپي شو!'));
+}
+</script>
+</body>
+</html>
